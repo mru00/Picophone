@@ -1,5 +1,5 @@
 
-#include <p18f2450.h>
+#include <p18f4450.h>
 #include <GenericTypeDefs.h>
 #include <pwm.h>
 #include <timers.h>
@@ -8,19 +8,20 @@
 
 #pragma config PLLDIV   = 5         // (20 MHz crystal on PICDEM FS USB board)
 #pragma config CPUDIV   = OSC1_PLL2
-#pragma config USBDIV   = 2         // Clock source from 96MHz PLL/2
 #pragma config FOSC     = HSPLL_HS
+#pragma config PBADEN   = OFF
+
+#pragma config USBDIV   = 2         // Clock source from 96MHz PLL/2
 #pragma config FCMEN    = OFF
 #pragma config IESO     = OFF
 #pragma config PWRT     = ON
-#pragma config BOR      = OFF
-//#pragma config BORV     = 28
+#pragma config BOR      = ON
+#pragma config BORV     = 21
 #pragma config VREGEN   = OFF      //USB Voltage Regulator
 #pragma config WDT      = OFF
 #pragma config WDTPS    = 32768
 #pragma config MCLRE    = ON
 #pragma config LPT1OSC  = OFF
-#pragma config PBADEN   = OFF
 //      #pragma config CCP2MX   = ON
 #pragma config STVREN   = ON
 #pragma config LVP      = OFF
@@ -51,7 +52,6 @@ void asm_init(void);
 
 #pragma udata
 
-volatile BYTE var = 0;
 #pragma code
 
 
@@ -72,8 +72,6 @@ void interrupt_at_low_vector(void) {
 #pragma interruptlow low_isr
 
 void low_isr(void) {
-    var = 1;
-    /* ... */
 }
 /*
  * For PIC18 devices the high interrupt vector is found at
@@ -95,7 +93,7 @@ void high_isr(void) {
     {
         INTCONbits.TMR0IF = 0; // clear the flag
         INTCONbits.TMR0IE = 1; // reenable the interrupt
-        WriteTimer0(134);
+        WriteTimer0(16);
         updatePhase();
     }
 }
@@ -105,8 +103,14 @@ void high_isr(void) {
 
 void main(void) {
 
+//    PORTEbits.RDPU = 1;
+
+//    SSPCON1bits.SSPEN = 0;
+
     // port b is input
-    TRISB = 1;
+    TRISD = 0xff;
+    LATD = 0xff;
+    //PORTD = 1;
     INTCON = 0; // clear the interrpt control register
 
 #ifdef USE_OR_MASKS
