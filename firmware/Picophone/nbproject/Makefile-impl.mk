@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=ddsynth_mcc.X
+PROJECTNAME=Picophone
 
 # Active Configuration
 DEFAULTCONF=default
