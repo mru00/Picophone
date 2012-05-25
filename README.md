@@ -14,3 +14,7 @@ Operates from battery.
 Monophonic in the current firmware.
 
 
+References
+---------
+
+http://www.min.at/prinz/oe1rib/DDS/SineDDS.htm
