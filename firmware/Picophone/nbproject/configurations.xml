@@ -40,8 +40,8 @@
         </linkerTool>
       </compileType>
       <makeCustomizationType>
-        <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
-        <makeCustomizationPreStep></makeCustomizationPreStep>
+        <makeCustomizationPreStepEnabled>true</makeCustomizationPreStepEnabled>
+        <makeCustomizationPreStep>${ProjectDir}/../../make_tables.py > ${ProjectDir}/tables.inc</makeCustomizationPreStep>
         <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep>cp ${ImagePath} Firmware.hex</makeCustomizationPostStep>
         <makeCustomizationAlternativeFileToLoadEnabled>false</makeCustomizationAlternativeFileToLoadEnabled>

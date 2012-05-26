@@ -9,7 +9,6 @@ inputs  equ PORTD
     udata
 taboff res 1
 cnt1    res 1
-accu    res 1
 phases  res 2*NR_INPUTS
 was_carry res 1
 FSR1_save_h   res 1
@@ -24,7 +23,6 @@ FSR1_save_l   res 1
 updatePhase
 
     lfsr FSR0, phases
-    clrf accu
 
     local i = 0
     while i < NR_INPUTS
@@ -72,10 +70,11 @@ input_active#v(i)
 
 ; workaround: cannot access 256byte table
 
-    call TABLE_sin
-    addwf accu,F              ; add it to accumulator
+    call TABLE_waveform
+    addlw 0x80
+    movwf output
 
-    goto final
+    goto end_of_fun         ; skip rest of the notes & pwm stop
 
 
 loop_end#v(i)
@@ -83,10 +82,13 @@ loop_end#v(i)
 i = i + 1
     endw
 
-final
-    movf accu, W
-    addlw 0x80
+; no single note was played; stop the pwm
+
+    movlw 0x00
     movwf output
+
+
+end_of_fun
     return
 
 

@@ -69,7 +69,7 @@ ImagePath=dist/default/${IMAGE_TYPE}/Picophone.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 ImageDir=dist/default/${IMAGE_TYPE}
 ImageName=Picophone.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
-.build-conf:  ${BUILD_SUBPROJECTS}
+.build-conf:  .pre ${BUILD_SUBPROJECTS}
 	${MAKE}  -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/Picophone.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 	@echo "--------------------------------------"
 	@echo "User defined post-build step: [cp ${ImagePath} Firmware.hex]"
@@ -127,6 +127,11 @@ dist/${CND_CONF}/${IMAGE_TYPE}/Picophone.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJEC
 	${MP_LD} $(MP_EXTRA_LD_PRE)   -p$(MP_PROCESSOR_OPTION_LD)  -w  -i  -z__MPLAB_BUILD=1  -u_CRUNTIME -l ${MP_CC_DIR}/../lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/Picophone.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}    -i
 endif
 
+.pre:
+	@echo "--------------------------------------"
+	@echo "User defined pre-build step: [${ProjectDir}/../../make_tables.py > ${ProjectDir}/tables.inc]"
+	@${ProjectDir}/../../make_tables.py > ${ProjectDir}/tables.inc
+	@echo "--------------------------------------"
 
 # Subprojects
 .build-subprojects:
